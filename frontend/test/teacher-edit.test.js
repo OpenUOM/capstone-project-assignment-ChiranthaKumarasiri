@@ -21,8 +21,16 @@ test
     const table = Selector('#teacher-table')
     const rowCount = await table.find('tr').count;
 
-    let tdText = await table.find('tr').nth(rowCount - 1).innerText;
-    await t.expect(tdText).contains("Changed Teacher Name");
+    let found = false;
+    for (let i = 1; i < rowCount; i++) { // skip the header row
+    let rowText = await table.find('tr').nth(i).innerText;
+    if (rowText.includes("Changed Teacher Name")) {
+        found = true;
+        break;
+    }
+}
+await t.expect(found).ok("Could not find updated teacher name in table");
+
 
     await t.click(`#teacher-delete-${teacherId}`);
 });
