@@ -6,7 +6,11 @@ fixture`Testing Teacher UI`
 test
 ('Testing edit teachers', async t => {
     await t.navigateTo("/");
-    await t.click("#teacher-edit");
+    const editButton = Selector('[id^="teacher-edit-"]').nth(0);
+    const editButtonId = await editButton.getAttribute('id');
+    const teacherId = editButtonId.replace('teacher-edit-', '');
+
+    await t.click(editButton);
 
     await t.typeText("#teacher-name", "Changed Teacher Name");
     await t.typeText("#teacher-age", "99");
@@ -20,5 +24,5 @@ test
     let tdText = await table.find('tr').nth(rowCount - 1).innerText;
     await t.expect(tdText).contains("Changed Teacher Name");
 
-    await t.click("#teacher-delete-123456");
+    await t.click(`#teacher-delete-${teacherId}`);
 });
