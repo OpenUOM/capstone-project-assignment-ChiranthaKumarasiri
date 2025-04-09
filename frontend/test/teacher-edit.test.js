@@ -22,7 +22,7 @@ test
     const rowCount = await table.find('tr').count;
 
     let found = false;
-    for (let i = 1; i < rowCount; i++) { // skip the header row
+    for (let i = 1; i < rowCount; i++) { 
     let rowText = await table.find('tr').nth(i).innerText;
     if (rowText.includes("Changed Teacher Name")) {
         found = true;
